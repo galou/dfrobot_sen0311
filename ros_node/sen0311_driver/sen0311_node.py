@@ -7,7 +7,7 @@ from sensor_msgs.msg import Range
 class SEN0311Node(Node):
     def __init__(self):
         super().__init__('sen0311_node')
-        self.declare_parameter('sensor_ip', '192.168.40.20')
+        self.declare_parameter('sensor_ip', '192.168.40.21')
         self.declare_parameter('frame_id', 'sen0311_link')
         self.declare_parameter('poll_period', 0.1)
 
