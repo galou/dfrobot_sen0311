@@ -35,8 +35,8 @@ class SEN0311Node(Node):
             msg.header.frame_id = self.frame_id
             msg.radiation_type = Range.ULTRASOUND
             msg.field_of_view = 0.1
-            msg.min_range = 0.0
-            msg.max_range = 10.0
+            msg.min_range = 0.030
+            msg.max_range = 4.5
             msg.range = distance_m
 
             self.publisher_.publish(msg)
