@@ -17,7 +17,7 @@ class SEN0311Node(Node):
 
         self.url = f'http://{self.sensor_ip}/sensor/distance'
         self.session = requests.Session()
-        self.publisher_ = self.create_publisher(Range, '/sen0311/Distance', 10)
+        self.publisher_ = self.create_publisher(Range, '/sen0311/range', 10)
         self.timer = self.create_timer(poll_period, self.timer_callback)
 
         self.get_logger().info(f'SEN0311 node started: {self.url}')
