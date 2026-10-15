@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
-import requests
+
 import rclpy
+import requests
 from rclpy.node import Node
 from sensor_msgs.msg import Range
 
+
 class SEN0311Node(Node):
+    """
+    ROS node for the SEN0311 ultrasonic distance sensor.
+
+    ROS node for the SEN0311 ultrasonic distance sensor connected to an M5 Atom Lite on
+    which ESPHome is running. It polls the sensor over HTTP and publishes the distance as
+    a Range message.
+    """
     def __init__(self):
         super().__init__('sen0311_node')
         self.declare_parameter('sensor_ip', '192.168.40.21')
@@ -43,6 +52,7 @@ class SEN0311Node(Node):
         except Exception as e:
             self.get_logger().warn(f'Error: {e}', throttle_duration_sec=2.0)
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = SEN0311Node()
@@ -53,6 +63,7 @@ def main(args=None):
     finally:
         node.destroy_node()
         rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
