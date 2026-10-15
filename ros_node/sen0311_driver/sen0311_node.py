@@ -27,7 +27,8 @@ class SEN0311Node(Node):
             response = self.session.get(self.url, timeout=(1.0, 2.0))
             response.raise_for_status()
             data = response.json()
-            distance_m = float(data['value'])
+            distance_mm = float(data['value'])
+            distance_m = 0.001 * distance_mm
 
             msg = Range()
             msg.header.stamp = self.get_clock().now().to_msg()
