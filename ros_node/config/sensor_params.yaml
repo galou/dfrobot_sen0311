@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    sensor_port: 80
+    endpoint_path: "/sensor/distance"  # Must correspond to the ESPHome endpoint path.
+    poll_frequency: 20.0
+    frame_id: "sen0311"
+

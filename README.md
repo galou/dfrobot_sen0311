@@ -15,8 +15,8 @@ This directory contains the ESPHome configuration for [DFRobot's SEN0311 Ultraso
 
 1. (Recommended, not necessary) Connect the M5 Atom Lite to a pc and flash it with the factory firmware
 2. Go to 'web.esphome.io', and connect to your desired Wi-Fi network. Check the
-   device IP and possibly modify `firmware/atomlite-distance.yaml` and
-   `ros_node/sen0311_driver/sen0311_node.py` to reflect this
+   device IP and possibly modify `firmware/atomlite-distance.yaml` to reflect
+   this. Give the same IP to the ROS node with the `sensor_ip` parameter
 3. Compile and run the firmware using pixi (cf. below)
 4. Verify that the device runs properly, either by checking the web server,
    endpoint (`curl -s http://<device_ip>/sensor/distance`) or ROS node (if
@@ -29,16 +29,16 @@ This directory contains the ESPHome configuration for [DFRobot's SEN0311 Ultraso
 https://docs.m5stack.com/en/accessory/cable/grove_cable, and
 'https://wiki.dfrobot.com/sen0311/#tech_specs'.
 
-| Cable Color Sensor  | Sensor Label | Groove Cable Color | Atom Lite Pin  | ESPHome Label |
-| ------------------- | ------------ | ------------------ |--------------- |---------------|
-| Red                 | VCC          | Red                | 5V             | -             |
-| Black               | GND          | Black              | GND            | -             |
-| Yellow              | RX           | Yellow             | G32            | rx_pin        |
-| White               | TX           | White              | G26            | tx_pin        |
+| Cable Color Sensor  | Sensor Label | Grove Cable Color | Atom Lite Pin  | ESPHome Label |
+| ------------------- | ------------ | ----------------- | -------------- |-------------- |
+| Red                 | VCC          | Red               | 5V             | -             |
+| Black               | GND          | Black             | GND            | -             |
+| Yellow              | RX           | Yellow            | G32            | rx_pin        |
+| White               | TX           | White             | G26            | tx_pin        |
 
 ## Network Configuration
 
-The sensor is configured to use a static IP address (`192.168.105.70`) on a
+The sensor is configured to use a static IP address (`192.168.1.2`) on a
 private network, which credentials must be set in `firmware/secrets.yaml`.
 To switch to a different network, update the `secrets.yaml` and provide Wi-Fi
 credentials or use the ESPHome captive portal that will be available when the
@@ -65,7 +65,7 @@ ESPHome web server to retrieve distance measurements and publishes them as a
 
 - **ESPHome Endpoint:** `/sensor/distance`
 - **Output Topic:** `/sen0311/range`
-- **Frame ID:** `sen0311_link`, configurable via ROS parameter `frame_id`
+- **Frame ID:** `sen0311`, configurable via ROS parameter `frame_id`
 
 ### Usage
 
@@ -73,8 +73,16 @@ Run the node using:
 ```bash
 colcon build
 source install/setup.bash
-ros2 run sen0311_node sen0311_driver --ros-args -p sensor_ip:="192.168.40.20"
+ros2 run sen0311_driver sen0311_node --ros-args -p sensor_ip:="192.168.1.2"
 ```
+
+or, with the defaults from `ros_node/config/sensor_params.yaml`:
+```bash
+ros2 launch sen0311_driver driver.launch.py sensor_ip:=192.168.1.2
+```
+
+`sensor_ip` has no default and must always be given.
+
 # Setup instruction
 1. (Reccomended, not necesary) Connect the M5 Atom Lite to a pc and flash it with the factory firmware
 2. Go to 'web.esphome.io', and connect to your desired wifi network. Check the device ip and modify 'firmware/atomlite-distance.yaml' and  'ros_node\sen0311_driver\sen0311_node.py' to reflect this
